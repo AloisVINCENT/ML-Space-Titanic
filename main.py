@@ -10,6 +10,30 @@ test_data = pd.read_csv('Ressources/test.csv')
 ### On va utiliser les colonnes : 
 ### HomePlanet, CryoSleep, Destination, Age, VIP, Argent_Total
 
+# Mise en forme Age
+train_data['Age2'] = 'Inconnu'
+for i in range(len(train_data['Age'])):
+    if (train_data['Age'][i] > 0 and train_data['Age'][i] < 18):
+        train_data['Age2'][i] = "Enfant"
+    elif (train_data['Age'][i] >= 18 and train_data['Age'][i] < 30):
+        train_data['Age2'][i] = "Jeune"
+    elif (train_data['Age'][i] >= 30 and train_data['Age'][i] < 50):
+        train_data['Age2'][i] = "Adulte"
+    elif (train_data['Age'][i] >= 50):
+        train_data['Age2'][i] = "Vieux"
+# Jeune      3375
+# Adulte     2783
+# Enfant     1367
+# Vieux       811
+# Inconnu     357
+
+train_data["Argent_Total"] = train_data["RoomService"] + train_data["FoodCourt"] + train_data["ShoppingMall"] + train_data["Spa"] + train_data["VRDeck"]
+# Ajout Colonne Famille
+train_data['Famille'] = False
+for i in range(len(train_data['Cabin'])-1):
+    if (train_data['Cabin'][i] == train_data['Cabin'][i+1]):
+        train_data['Famille'][i] = True
+train_data.to_csv('Ressources/train2.csv', index=False)
 
 train_data["Argent_Total"] = train_data["RoomService"] + train_data["FoodCourt"] + train_data["ShoppingMall"] + train_data["Spa"] + train_data["VRDeck"]
 train_data['Age'].fillna(train_data['Age'].median(), inplace= True)
@@ -27,10 +51,10 @@ test_data['Destination'].fillna("TRAPPIST-1e", inplace = True)
 test_data['VIP'].fillna(test_data['VIP'].median(), inplace = True)
 test_data['HomePlanet'].fillna("Earth", inplace = True)
 
-print(train_data.head())
+# print(train_data.head())
 
 ## Création du modèle de Forêt
-forest_model = RandomForestClassifier(n_estimators= 5000, max_depth = 6, random_state=1)
+forest_model = RandomForestClassifier(n_estimators= 2100, max_depth = 6, random_state=1)
 
 features = ["Argent_Total", "Age", "CryoSleep", "Destination", "VIP", "HomePlanet"] 
 
