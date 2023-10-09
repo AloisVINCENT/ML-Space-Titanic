@@ -76,7 +76,12 @@ for i in range(len(test_data['Age'])):
     elif (test_data['Age'][i] >= 50):
         test_data.loc[i, 'Classe_Age'] = "Vieux"
 
-print(test_data.value_counts('Classe_Age'))
+# Classe_Age
+# Jeune      1766
+# Adulte     1325
+# Enfant      637
+# Vieux       376
+# Inconnu     173
 
 test_data["RoomService"].fillna(test_data["RoomService"].median(), inplace= True)
 test_data["FoodCourt"].fillna(test_data["FoodCourt"].median(), inplace= True)
