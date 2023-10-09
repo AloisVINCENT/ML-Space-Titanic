@@ -33,10 +33,23 @@ train_data['Famille'] = False
 for i in range(len(train_data['Cabin'])-1):
     if (train_data['Cabin'][i] == train_data['Cabin'][i+1]):
         train_data['Famille'][i] = True
-train_data.to_csv('Ressources/train2.csv', index=False)
+
 
 train_data["Argent_Total"] = train_data["RoomService"] + train_data["FoodCourt"] + train_data["ShoppingMall"] + train_data["Spa"] + train_data["VRDeck"]
-train_data['Age'].fillna(train_data['Age'].median(), inplace= True)
+for i in range(len(train_data['Age'])):
+    if (pd.isna(train_data['Age'][i])):
+        rand = np.random.randint(1, 11)
+        if (rand <= 4):
+            train_data['Age'][i] = np.random.randint(18, 30)
+        elif (rand > 4 and rand <= 7):
+            train_data['Age'][i] = np.random.randint(30, 50)
+        elif (rand > 7 and rand <= 9):
+            train_data['Age'][i] = np.random.randint(int(train_data['Age'].min()), 18)
+        else:
+            train_data['Age'][i] = np.random.randint(50, int(train_data['Age'].max()))
+
+train_data.to_csv('Ressources/train2.csv', index=False)
+
 train_data['CryoSleep'].fillna(False)
 train_data['Destination'].fillna("TRAPPIST-1e", inplace = True)
 train_data['VIP'].fillna(train_data['VIP'].median(), inplace = True)
