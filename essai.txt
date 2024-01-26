@@ -1,0 +1,9 @@
+Essaie en creant une colonne contenant les classe d'age (Enfant, Adulte, Vieux, Inconnu), cela n'améliore pas le score
+train_data['Classe_Age'] = 0
+for i in range(len(train_data['Age'])):
+    if (train_data['Age'][i] > 0.0 and train_data['Age'][i] < 18.0):
+        train_data.loc[i, "Classe_Age"] = 1
+    elif (train_data['Age'][i] >= 18.0 and train_data['Age'][i] <= 63.0):
+        train_data.loc[i, "Classe_Age"] = 2
+    else:
+        train_data.loc[i, "Classe_Age"] = 3
